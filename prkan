@@ -1,0 +1,25 @@
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+dictionary=kan
+num=`expr $2 - $1 + 1`
+for ((i=0;i<$3;i++)); do
+	n=$((RANDOM % $num))
+   tn=$(($n + $1))
+	line=`head -n $tn $dictionary | tail -1`
+	echo $line | cut --delimiter=' ' --fields=1
+	corr=`echo $line | cut --delimiter=' ' --fields=2`
+	read in
+	while [[ $in != $corr ]]; do
+		echo ${red}✗${reset}
+		read in
+	done
+	echo ${green}✔${reset}
+	corr=`echo $line | cut --delimiter=' ' --fields=3`
+	read in
+	while [[ $in != $corr ]]; do
+		echo ${red}✗${reset}
+		read in
+	done
+	echo ${green}✔${reset}
+done
